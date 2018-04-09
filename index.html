@@ -1,0 +1,70 @@
+<!doctype html>
+<html lav="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>练习TodoMVC-Vue</title>
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+</head>
+<body>
+<div id="app">
+    <section class="todoapp">
+        <header class="header">
+            <h1>todo</h1>
+            <!-- ---------------------------只能是$event-->
+            <input v-model="task" @keyup.enter="addTask($event)" class="new-todo" placeholder="What needs to be done?"
+                   autofocus>
+        </header>
+        <!--（比如控制显示隐藏，不想新增一个空的div,这时使用template）
+在 <template> 元素上使用 v-if 条件渲染分组
+因为 v-if 是一个指令，所以必须将它添加到一个元素上。但是如果想切换多个元素呢？此时可以把一个 <template> 元素当做不可见的包裹元素，并在上面使用 v-if。最终的渲染结果将不包含 <template> 元素。-->
+        <template v-if="tasklist.length">
+            <section class="main">
+                <input class="toggle-all" type="checkbox" @click="changeAllStatus" v-model="status">
+                <label for="toggle-all">Mark all as complete</label>
+                <ul class="todo-list">
+                    <!--循环列表-->
+                    <li v-for="(item,index) in tasklist"
+                        :class="{'completed':item.isFinish,'editiv':item.isEditiv}">
+                        <div class="view">
+                            <input @click="updateStatus(index)" class="toggle" type="checkbox" v-model="item.isFinish">
+                            <label @dblclick="edit(item)">{{item.name}}</label>
+                            <button class="destroy" @click="destroy(index)"></button>
+                        </div>
+                        <input class="edit" v-model="item.name" auto-focus>
+                    </li>
+                </ul>
+            </section>
+            <!--v-if="tasklist.length"显示-隐藏-->
+            <div class="footer">
+                <!--.filter(自动return符合条件的结果).length的长度-->
+                <span class="todo-count"><span>{{tasklist.filter(item => !item.isFinish).length}}</span> 个未完成</span>
+                <ul class="filters">
+                    <li>
+                        <!-- ------------------------------------------去掉''all是变量-->
+                        <a :class="{'selected':isSelected=='all'}" @click="filterTask('all')" href="#/">所有</a>
+                    </li>
+                    <li>
+                        <a :class="{'selected':isSelected=='active'}" @click="filterTask('active')"
+                           href="#/active">未完成</a>
+                    </li>
+                    <li>
+                        <a :class="{'selected':isSelected=='completed'}" @click="filterTask('completed')"
+                           href="#/completed">已完成</a>
+                    </li>
+                </ul>
+                <button v-show="ctrlShow()" @click="clear" class="clear-completed">清空已完成</button>
+            </div>
+        </template>
+    </section>
+</div>
+<footer class="info">
+    <p>Double-click to edit a todo</p>
+    <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="assets/js/toapp.js"></script>
+</body>
+</html>
+
