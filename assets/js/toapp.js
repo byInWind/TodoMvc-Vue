@@ -24,23 +24,25 @@ new Vue({
     data: {
         task: '',
         isSelected: 'all',
-        tasklist: tasklist
+        tasklist: JSON.parse(window.localStorage.getItem('tasklist') || '[]')
     },
     methods: {
         addTask: function () {
-            if (this.task) {
+            if (this.task.trim()) {
                 this.tasklist.push({
                     id: this.tasklist.length + 1,
                     name: this.task.trim(),
                     isFinish: false,
                     isEditing: false
-                })
+                });
             }
             this.task = ""
         },
         destroy: function (index) {
             //传入当前项
             this.tasklist.splice(index, 1);
+            window.localStorage.setItem('tasklist',JSON.stringify(tasklist));
+
         }, changeAllStatus: function (e) {
             this.tasklist.forEach(item => item.isFinish = e.target.checked)
         }, edit: function (item) {
@@ -80,7 +82,31 @@ new Vue({
                 }
             }
             //2
-           // this.tasklist = this.tasklist.filter(item => !item.isFinish)
+            // this.tasklist = this.tasklist.filter(item => !item.isFinish)
+        }
+    },
+    computed:{
+        showOrhide: {
+            get: function () {
+                return  this.tasklist.filter(item => !item.isFinish).length;
+            },
+            set: function(){
+
+            }
+        },
+        toggleAllStatus:function () {
+            return this.tasklist.every( item => item.isFinish )
+        }
+    },
+    created:function () {
+        console.log('the Vue have created')
+    },
+    watch:{
+        tasklist: {
+            handler: function () {
+                window.localStorage.setItem('tasklist',JSON.stringify(this.tasklist));
+            },
+            deep: true   //对象需要深度监视
         }
     }
 });

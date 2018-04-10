@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lav="en">
 <head>
@@ -12,15 +13,15 @@
     <section class="todoapp">
         <header class="header">
             <h1>todo</h1>
-            <!-- ---------------------------只能是$event-->
+            <!-- ------$event-->
             <input v-model="task" @keyup.enter="addTask" class="new-todo" placeholder="What needs to be done?">
         </header>
         <!--（比如控制显示隐藏，不想新增一个空的div,这时使用template）
-在 <template> 元素上使用 v-if 条件渲染分组
-因为 v-if 是一个指令，所以必须将它添加到一个元素上。但是如果想切换多个元素呢？此时可以把一个 <template> 元素当做不可见的包裹元素，并在上面使用 v-if。最终的渲染结果将不包含 <template> 元素。-->
+在 <template> 元素上使用 v-if 条件渲染分组
+因为 v-if 是一个指令，所以必须将它添加到一个元素上。但是如果想切换多个元素呢？此时可以把一个 <template> 元素当做不可见的包裹元素，并在上面使用 v-if。最终的渲染结果将不包含 <template> 元素。-->
         <template v-if="tasklist.length">
             <section class="main">
-                <input class="toggle-all" type="checkbox" @click="changeAllStatus">
+                <input class="toggle-all" type="checkbox" @click="changeAllStatus" :checked="toggleAllStatus">
                 <label for="toggle-all">Mark all as complete</label>
                 <ul class="todo-list">
                     <!--循环列表-->
@@ -38,7 +39,7 @@
             <!--v-if="tasklist.length"显示-隐藏-->
             <div class="footer">
                 <!--.filter(自动return符合条件的结果).length的长度-->
-                <span class="todo-count"><span>{{tasklist.filter(item => !item.isFinish).length}}</span> 个未完成</span>
+                <span class="todo-count"><span>{{ showOrhide }}</span> 个未完成</span>
                 <ul class="filters">
                     <li>
                         <!-- ------------------------------------------去掉''all是变量-->
@@ -53,17 +54,16 @@
                            href="#/completed">已完成</a>
                     </li>
                 </ul>
-                <button v-if="tasklist.some(item => item.isFinish)" @click="clear" class="clear-completed">清空已完成</button>
+                <button v-show="tasklist.some(item => item.isFinish)" @click="clear" class="clear-completed">清空已完成</button>
             </div>
         </template>
     </section>
 </div>
 <footer class="info">
-    <p>Double-click to edit a todo</p>
+    <p>双击编辑/localstorage</p>
     <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
 <script src="assets/js/toapp.js"></script>
 </body>
 </html>
-
