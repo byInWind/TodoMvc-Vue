@@ -23,7 +23,6 @@ new Vue({
     el: "#app",
     data: {
         task: '',
-        status: true,
         isSelected: 'all',
         tasklist:tasklist
     },
@@ -35,10 +34,9 @@ new Vue({
             }
         },
         addTask: function () {
-            //敲击了回车
             if (this.task) {
                 this.tasklist.push({
-                    id: this.tasklist + 1,
+                    id: this.tasklist.length + 1,
                     name: this.task.trim(),
                     isFinish: false,
                     isEditing: false
@@ -65,20 +63,8 @@ new Vue({
                     return true;
                 }
             }
-        }, changeAllStatus: function () {
-            for (var i = 0; i < this.tasklist.length; i++) {
-                this.tasklist[i].isFinish = this.status;
-            }
-        }, updateStatus: function (index) {
-            this.tasklist[index].isFinish = !this.tasklist[index].isFinish;
-            for (var i = 0; i < this.tasklist.length; i++) {
-                //有false 即true,每一项都是true,则false
-                if (!this.tasklist[i].isFinish) {
-                    this.status = true;
-                } else {
-                    this.status = false;
-                }
-            }
+        }, changeAllStatus: function (e) {
+            this.tasklist.forEach(item => item.isFinish=e.target.checked);
         }, edit: function (item) {
             item.isEditing = true
         }, cancelModify: function (item) {

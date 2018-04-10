@@ -13,22 +13,21 @@
         <header class="header">
             <h1>todo</h1>
             <!-- ---------------------------只能是$event-->
-            <input v-model="task" @keyup.enter="addTask($event)" class="new-todo" placeholder="What needs to be done?"
-                   autofocus>
+            <input v-model="task" @keyup.enter="addTask($event)" class="new-todo" placeholder="What needs to be done?">
         </header>
         <!--（比如控制显示隐藏，不想新增一个空的div,这时使用template）
 在 <template> 元素上使用 v-if 条件渲染分组
 因为 v-if 是一个指令，所以必须将它添加到一个元素上。但是如果想切换多个元素呢？此时可以把一个 <template> 元素当做不可见的包裹元素，并在上面使用 v-if。最终的渲染结果将不包含 <template> 元素。-->
         <template v-if="tasklist.length">
             <section class="main">
-                <input class="toggle-all" type="checkbox" @click="changeAllStatus" v-model="status">
+                <input class="toggle-all" type="checkbox" @click="changeAllStatus">
                 <label for="toggle-all">Mark all as complete</label>
                 <ul class="todo-list">
                     <!--循环列表-->
                     <li v-for="(item,index) in tasklist"
                         :class="{'completed':item.isFinish,'editiv':item.isEditiv}">
                         <div class="view">
-                            <input @click="updateStatus(index)" class="toggle" type="checkbox" v-model="item.isFinish">
+                            <input class="toggle" type="checkbox" v-model="item.isFinish">
                             <label @dblclick="edit(item)">{{item.name}}</label>
                             <button class="destroy" @click="destroy(index)"></button>
                         </div>
