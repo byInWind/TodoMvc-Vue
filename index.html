@@ -13,7 +13,7 @@
         <header class="header">
             <h1>todo</h1>
             <!-- ---------------------------只能是$event-->
-            <input v-model="task" @keyup.enter="addTask($event)" class="new-todo" placeholder="What needs to be done?">
+            <input v-model="task" @keyup.enter="addTask" class="new-todo" placeholder="What needs to be done?">
         </header>
         <!--（比如控制显示隐藏，不想新增一个空的div,这时使用template）
 在 <template> 元素上使用 v-if 条件渲染分组
@@ -25,13 +25,13 @@
                 <ul class="todo-list">
                     <!--循环列表-->
                     <li v-for="(item,index) in tasklist"
-                        :class="{'completed':item.isFinish,'editiv':item.isEditiv}">
+                        :class="{'completed':item.isFinish,'editing':item.isEditing}">
                         <div class="view">
                             <input class="toggle" type="checkbox" v-model="item.isFinish">
                             <label @dblclick="edit(item)">{{item.name}}</label>
                             <button class="destroy" @click="destroy(index)"></button>
                         </div>
-                        <input class="edit" v-model="item.name" auto-focus>
+                        <input class="edit" :value="item.name" auto-focus @keyup.esc="cancelEdit(item)" @keyup.enter="saveEdit(item,index,$event)" @blur="saveEdit(item,index,$event)">
                     </li>
                 </ul>
             </section>
@@ -53,7 +53,7 @@
                            href="#/completed">已完成</a>
                     </li>
                 </ul>
-                <button v-show="ctrlShow()" @click="clear" class="clear-completed">清空已完成</button>
+                <button v-if="tasklist.some(item => item.isFinish)" @click="clear" class="clear-completed">清空已完成</button>
             </div>
         </template>
     </section>
@@ -62,7 +62,7 @@
     <p>Double-click to edit a todo</p>
     <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
 <script src="assets/js/toapp.js"></script>
 </body>
 </html>
