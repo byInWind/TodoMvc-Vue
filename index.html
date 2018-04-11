@@ -25,7 +25,7 @@
                 <label for="toggle-all">Mark all as complete</label>
                 <ul class="todo-list">
                     <!--循环列表-->
-                    <li v-for="(item,index) in tasklist"
+                    <li v-for="(item,index) in filterTask"
                         :class="{'completed':item.isFinish,'editing':item.isEditing}">
                         <div class="view">
                             <input class="toggle" type="checkbox" v-model="item.isFinish">
@@ -43,14 +43,14 @@
                 <ul class="filters">
                     <li>
                         <!-- ------------------------------------------去掉''all是变量-->
-                        <a :class="{'selected':isSelected=='all'}" @click="filterTask('all')" href="#/">所有</a>
+                        <a :class="{'selected':filterText=='all'}" @click="filterText='all'" href="#/">所有</a>
                     </li>
                     <li>
-                        <a :class="{'selected':isSelected=='active'}" @click="filterTask('active')"
+                        <a :class="{'selected':filterText=='active'}" @click="filterText='active'"
                            href="#/active">未完成</a>
                     </li>
                     <li>
-                        <a :class="{'selected':isSelected=='completed'}" @click="filterTask('completed')"
+                        <a :class="{'selected':filterText=='completed'}" @click="filterText='completed'"
                            href="#/completed">已完成</a>
                     </li>
                 </ul>
