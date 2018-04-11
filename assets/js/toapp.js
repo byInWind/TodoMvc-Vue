@@ -110,3 +110,11 @@ var app = new Vue({
 // window.onhashchange = function () {
 //     app.filterText = window.location.hash.substr(2)
 // }
+// 注册一个全局自定义指令 `v-todo-focus`
+Vue.directive('todoFocus', {
+    update: function (el,binding) {
+        if(binding.value){
+            el.focus()
+        }
+    }
+});

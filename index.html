@@ -14,7 +14,7 @@
         <header class="header">
             <h1>todo</h1>
             <!-- ------$event-->
-            <input v-model="task" @keyup.enter="addTask" class="new-todo" placeholder="What needs to be done?">
+            <input autofocus v-model="task" @keyup.enter="addTask" class="new-todo" placeholder="What needs to be done?">
         </header>
         <!--（比如控制显示隐藏，不想新增一个空的div,这时使用template）
 在 <template> 元素上使用 v-if 条件渲染分组
@@ -32,7 +32,7 @@
                             <label @dblclick="edit(item)">{{item.name}}</label>
                             <button class="destroy" @click="destroy(index)"></button>
                         </div>
-                        <input class="edit" :value="item.name" auto-focus @keyup.esc="cancelEdit(item)" @keyup.enter="saveEdit(item,index,$event)" @blur="saveEdit(item,index,$event)">
+                        <input v-todo-focus="item.isEditing==true" class="edit" :value="item.name" @keyup.esc="cancelEdit(item)" @keyup.enter="saveEdit(item,index,$event)" @blur="saveEdit(item,index,$event)">
                     </li>
                 </ul>
             </section>
